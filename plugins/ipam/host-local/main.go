@@ -15,6 +15,7 @@
 package main
 
 import (
+	"github.com/appc/cni/plugins/ipam/host-local/backend"
 	"github.com/appc/cni/plugins/ipam/host-local/backend/disk"
 
 	"github.com/appc/cni/pkg/skel"
@@ -26,7 +27,7 @@ func main() {
 }
 
 func cmdAdd(args *skel.CmdArgs) error {
-	ipamConf, err := LoadIPAMConfig(args.StdinData, args.Args)
+	ipamConf, err := backend.LoadIPAMConfig(args.StdinData, args.Args)
 	if err != nil {
 		return err
 	}
@@ -37,7 +38,7 @@ func cmdAdd(args *skel.CmdArgs) error {
 	}
 	defer store.Close()
 
-	allocator, err := NewIPAllocator(ipamConf, store)
+	allocator, err := backend.NewIPAllocator(ipamConf, store)
 	if err != nil {
 		return err
 	}
@@ -54,7 +55,7 @@ func cmdAdd(args *skel.CmdArgs) error {
 }
 
 func cmdDel(args *skel.CmdArgs) error {
-	ipamConf, err := LoadIPAMConfig(args.StdinData, args.Args)
+	ipamConf, err := backend.LoadIPAMConfig(args.StdinData, args.Args)
 	if err != nil {
 		return err
 	}
@@ -65,7 +66,7 @@ func cmdDel(args *skel.CmdArgs) error {
 	}
 	defer store.Close()
 
-	allocator, err := NewIPAllocator(ipamConf, store)
+	allocator, err := backend.NewIPAllocator(ipamConf, store)
 	if err != nil {
 		return err
 	}
